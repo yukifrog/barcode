@@ -1,13 +1,29 @@
 index.html
 <a href="https://simple-qr.netlify.app/">https://simple-qr.netlify.app/</a>
+
+<div class="reader">
+    <video
+        id="js-video"
+        class="reader-video"
+        autoplay
+        playsinline
+    ></video>
+</div>
+
+<div id="c">
+</div>
+
 <script>
+
+const imageEl = document.querySelector("#js-video");
 
 barcodeDetector
   .detect(imageEl)
   .then((barcodes) => {
     barcodes.forEach((barcode) => console.log(barcode.rawData));
+    document.getElementById("c").innerText=barcode.rawData;
   })
   .catch((err) => {
     console.log(err);
-  });
+  });   
 </script>

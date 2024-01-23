@@ -15,15 +15,57 @@ index.html
 
 <script>
 
-const imageEl = document.querySelector("#js-video");
+if (!navigator.mediaDevices) {
+    document.querySelector('#js-unsupported').classList.add('is-show')
+}
 
-barcodeDetector
-  .detect(imageEl)
-  .then((barcodes) => {
-    barcodes.forEach((barcode) => console.log(barcode.rawData));
-    document.getElementById("c").innerText=barcode.rawData;
-  })
-  .catch((err) => {
-    console.log(err);
-  });   
+if (window.BarcodeDetector == undefined) {
+    console.log('Barcode Detector is not supported by this browser.')
+    document.querySelector('#js-unsupported').classList.add('is-show')
+}
+
+const video = document.querySelector('#js-video')
+
+const checkImage = () => {
+    const barcodeDetector = new BarcodeDetector()
+    barcodeDetector
+        .detect(video)
+        .then((barcodes) => {
+            if (barcodes.length > 0) {
+                // QRコードの読み取りに成功したらモーダル開く
+                for (let barcode of barcodes) {
+                    document.getElementById("c").innerText=(barcode.rawValue);
+                }
+            } else {
+                // QRコードが見つからなかったら再度実行
+                setTimeout(() => {
+                    checkImage()
+                }, 200)
+            }
+        })
+        .catch((e) => {
+            console.error('Barcode Detection failed, boo.')
+        })
+}
+
+navigator.mediaDevices
+    .getUserMedia({
+        audio: false,
+        video: {
+            facingMode: {
+                exact: 'environment',
+            },
+        },
+    })
+    .then((stream) => {
+        video.srcObject = stream
+        video.onloadedmetadata = () => {
+            video.play()
+            checkImage()
+        }
+    })
+    .catch((err) => {
+        alert('Error!!')
+    })
+
 </script>

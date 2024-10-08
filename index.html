@@ -16,6 +16,7 @@ const video = document.querySelector('#js-video')
 
 const checkImage = () => {
     const barcodeDetector = new BarcodeDetector()
+    document.getElementById("c").innerText=('checkImage');
     barcodeDetector
         .detect(video)
         .then((barcodes) => {

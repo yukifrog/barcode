@@ -24,11 +24,8 @@ const checkImage = () => {
                 for (let barcode of barcodes) {
                     document.getElementById("c").innerText=(barcode.rawValue);
                 }
-                // QRコードが見つからなかったら再度実行
-                setTimeout(() => {
-                    checkImage()
-                }, 2000)
             } else {
+                document.getElementById("c").innerText=('not found');
                 // QRコードが見つからなかったら再度実行
                 setTimeout(() => {
                     checkImage()

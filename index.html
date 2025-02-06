@@ -21,7 +21,6 @@ const checkImage = () => {
         .detect(video)
         .then((barcodes) => {
             if (barcodes.length > 0) {
-                // QRコードの読み取りに成功したらモーダル開く
                 for (let barcode of barcodes) {
                     document.getElementById("c").innerText=(barcode.rawValue);
                 }

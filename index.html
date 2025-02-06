@@ -27,16 +27,15 @@ const checkImage = () => {
                 }
             } else {
                 document.getElementById("c").innerText=('not found');
-                // QRコードが見つからなかったら再度実行
-                setTimeout(() => {
-                    checkImage()
-                }, 200)
             }
         })
         .catch((e) => {
             console.error('Barcode Detection failed, boo.')
         })
 }
+setTimeout(() => {
+    checkImage()
+}, 200)
 
 navigator.mediaDevices
     .getUserMedia({
